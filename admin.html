@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pixelia 관리자</title>
+  <meta name="theme-color" content="#14122b">
+  <link rel="icon" href="img/ball.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin">
+  <div class="admin-top">
+    <div><span class="logo-en">PIXELIA</span> <b>관리자</b></div>
+    <div id="userBox" hidden>
+      <span class="who" id="who"></span>
+      <button class="btn btn-ghost btn-sm" id="refreshBtn" type="button">새로고침</button>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">로그아웃</button>
+    </div>
+  </div>
+
+  <main class="wrap" style="margin-top:24px">
+    <!-- 로그인 -->
+    <section class="card login" id="loginCard" hidden>
+      <h2 class="card-title">관리자 로그인</h2>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">이메일</label>
+          <input id="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="pw">비밀번호</label>
+          <input id="pw" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary btn-block" id="loginBtn" type="submit">로그인</button>
+        <p class="form-msg" id="loginMsg" role="alert"></p>
+      </form>
+    </section>
+
+    <div id="dash" hidden style="display:grid;gap:24px">
+      <!-- 요약 -->
+      <section class="card">
+        <h2 class="card-title">요약</h2>
+        <div class="kpis" id="kpis"></div>
+      </section>
+
+      <!-- 통계 -->
+      <section class="card">
+        <h2 class="card-title">유입 통계 <span class="opt">(무효 제외)</span></h2>
+        <div class="charts">
+          <div class="chart-box"><h3>유입 경로</h3><canvas id="pieChart"></canvas></div>
+          <div class="chart-box"><h3>일별 예약 수 (KST)</h3><canvas id="barChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- 홍보자 랭킹 -->
+      <section class="card">
+        <h2 class="card-title">홍보자 랭킹 <span class="opt">(무효 제외 · 전체)</span></h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>순위</th><th>홍보자</th><th>합계</th><th>ref 링크</th><th>직접 입력</th><th>예약 여부</th><th>1위 보상 지급</th></tr></thead>
+            <tbody id="rankBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 예약자 -->
+      <section class="card">
+        <h2 class="card-title">예약자</h2>
+        <div class="toolbar">
+          <input type="search" id="search" placeholder="닉네임 / 홍보자 / 기타 검색">
+          <label><input type="checkbox" id="showInvalid" checked> 무효 포함</label>
+          <button class="btn btn-yellow btn-sm" id="csvBtn" type="button">CSV 다운로드</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th data-sort="id">#</th>
+              <th data-sort="nickname">닉네임</th>
+              <th data-sort="source">유입 경로</th>
+              <th data-sort="referrer">홍보자</th>
+              <th data-sort="via_ref">ref 경유</th>
+              <th data-sort="created_at">예약 시각</th>
+              <th data-sort="reward_given">보상 지급</th>
+              <th>관리</th>
+            </tr></thead>
+            <tbody id="rowsBody"></tbody>
+          </table>
+        </div>
+        <p class="row-count" id="rowCount"></p>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

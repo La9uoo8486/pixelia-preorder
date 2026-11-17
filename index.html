@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pixelia 포켓몬 서버 · 사전예약</title>
+  <meta name="description" content="마인크래프트 베드락 Pixelia 포켓몬 서버 사전예약. 2026년 12월 1일 오픈!">
+  <meta property="og:title" content="Pixelia 포켓몬 서버 사전예약">
+  <meta property="og:description" content="지금 사전예약하고 오픈 보상 받아가세요! 12월 1일 오픈">
+  <meta name="theme-color" content="#14122b">
+  <link rel="icon" href="img/ball.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="hero">
+    <img class="ball" src="img/ball.svg" alt="" width="72" height="72">
+    <h1 class="logo"><span class="logo-en">PIXELIA</span><span class="logo-ko">포켓몬 서버</span></h1>
+    <p class="tagline">마인크래프트 베드락 · 사전예약 진행 중</p>
+  </header>
+
+  <main class="wrap">
+    <div id="setupWarn" class="card warn" hidden>config.js 에 Supabase 설정이 비어 있습니다. README를 참고하세요.</div>
+
+    <!-- 카운트다운 -->
+    <section class="card" aria-labelledby="cdTitle">
+      <h2 id="cdTitle" class="card-title">오픈까지</h2>
+      <div id="countdown" class="countdown" aria-live="polite">
+        <div><b data-u="d">--</b><span>일</span></div>
+        <div><b data-u="h">--</b><span>시간</span></div>
+        <div><b data-u="m">--</b><span>분</span></div>
+        <div><b data-u="s">--</b><span>초</span></div>
+      </div>
+      <p class="sub" id="openDate"></p>
+    </section>
+
+    <!-- 예약 폼 -->
+    <section class="card" id="formCard" hidden>
+      <h2 class="card-title">사전예약</h2>
+      <p id="refBadge" class="ref-badge" hidden></p>
+      <form id="form" novalidate>
+        <div class="field">
+          <label for="nick">마인크래프트 닉네임 <b class="req">*</b></label>
+          <input id="nick" name="nick" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: Steve_123" required>
+          <small id="nickHint" class="hint">영문·숫자·밑줄(_)·공백, 3~16자</small>
+        </div>
+
+        <fieldset class="field">
+          <legend>Q1. 어디서 보고 오셨나요? <b class="req">*</b></legend>
+          <div class="chips" id="sources"></div>
+          <input id="etc" maxlength="50" placeholder="어디서 보셨는지 적어주세요" hidden>
+          <small id="srcHint" class="hint"></small>
+        </fieldset>
+
+        <div class="field">
+          <label for="ref">Q2. 추천해 준 사람의 마크 닉네임 <span class="opt">(선택)</span></label>
+          <input id="ref" name="ref" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="없으면 비워두세요">
+          <small id="refHint" class="hint"></small>
+        </div>
+
+        <div id="captcha" class="captcha" hidden></div>
+        <p class="notice">🎁 오픈 보상 지급을 위해 닉네임을 수집합니다</p>
+        <button id="submitBtn" class="btn btn-primary btn-block" type="submit">사전예약 하기</button>
+        <p id="formMsg" class="form-msg" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- 완료 -->
+    <section class="card done" id="doneCard" hidden>
+      <div class="done-badge">✔ 예약 완료</div>
+      <p class="done-name"><span id="doneNick"></span> 님은</p>
+      <p class="done-pos"><b id="donePos">-</b>번째 사전예약자</p>
+      <p class="sub">아래 링크로 친구가 예약하면 홍보 랭킹에 올라가요!</p>
+      <div class="share">
+        <input id="myLink" readonly aria-label="내 추천 링크">
+        <button id="copyBtn" class="btn btn-yellow" type="button">복사</button>
+      </div>
+      <a id="discordBtn" class="btn btn-discord btn-block" target="_blank" rel="noopener">디스코드 참여하기</a>
+    </section>
+
+    <!-- 목표 게이지 -->
+    <section class="card">
+      <h2 class="card-title">사전예약 목표</h2>
+      <p class="count-line"><b id="total">-</b>명 예약 중</p>
+      <div class="gauge" aria-hidden="true">
+        <div class="gauge-fill" id="gaugeFill"></div>
+        <div id="gaugeMarks"></div>
+      </div>
+      <ol class="tiers" id="tiers"></ol>
+    </section>
+
+    <!-- 홍보 랭킹 -->
+    <section class="card">
+      <h2 class="card-title">홍보 랭킹 TOP 10</h2>
+      <div class="banner">👑 <span id="topBanner"></span></div>
+      <ol class="rank" id="rank"><li class="empty">불러오는 중…</li></ol>
+    </section>
+  </main>
+
+  <footer class="foot">© Pixelia · Minecraft는 Mojang Studios의 상표이며 본 서버는 Mojang·Nintendo·The Pokémon Company와 무관합니다.</footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
